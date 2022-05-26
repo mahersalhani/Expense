@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 
 import NewExpense from "./components/NewExpense/NewExpense";
 import Expenses from "./components/Expenses/Expenses";
 import { DUMMY_EXPENSES } from "./data";
+import useLocalStorage from "./hook/useLocalStorage";
 
 const App = () => {
-  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
+  const [expenses, setExpenses] = useLocalStorage("data", DUMMY_EXPENSES);
 
   // return React.createElement(
   //   'div',
@@ -16,14 +17,23 @@ const App = () => {
 
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
-      return [expense, ...prevExpenses];
+      let data = [expense, ...prevExpenses];
+      localStorage.setItem("data", JSON.stringify(data));
+      return data;
     });
+  };
+
+  const deleteExpenseHandler = (el) => {
+    let itemDeleteed = expenses.filter((item) => {
+      return item.id !== el.id;
+    });
+    setExpenses(itemDeleteed);
   };
 
   return (
     <div>
       <NewExpense onAddExpense={addExpenseHandler} />
-      <Expenses items={expenses} />
+      <Expenses items={expenses} onDeleteExpense={deleteExpenseHandler} />
     </div>
   );
 };

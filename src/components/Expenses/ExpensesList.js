@@ -14,9 +14,11 @@ const ExpensesList = (props) => {
           <ExpenseItem
             //
             key={i}
+            id={el.id}
             title={el.title}
             amount={el.amount}
             date={el.date}
+            delete={props.onDeleteExpense}
           />
         );
       })}

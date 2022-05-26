@@ -9,7 +9,6 @@ const Chart = ({ dataPoints }) => {
   const totalMaximum = dataPointValues.reduce((pre, cur) => {
     return pre + cur;
   });
-  console.log(totalMaximum);
 
   return (
     <div className="chart">
